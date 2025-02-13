@@ -1,9 +1,5 @@
-# PDF Invoice
+# PDF Gift Card
 
-[![Tests](https://img.shields.io/github/actions/workflow/status/artkonekt/pdf-invoice/tests.yml?branch=master&style=flat-square)](https://github.com/artkonekt/pdf-invoice/actions?query=workflow%3Atests)
-[![StyleCI](https://styleci.io/repos/113850945/shield?branch=master)](https://styleci.io/repos/113850945)
-[![Packagist Stable Version](https://img.shields.io/packagist/v/konekt/pdf-invoice.svg?style=flat-square&label=stable)](https://packagist.org/packages/pyromn/pdf-invoice)
-[![Packagist downloads](https://img.shields.io/packagist/dt/konekt/pdf-invoice.svg?style=flat-square)](https://packagist.org/packages/pyromn/pdf-invoice)
 [![GPL Software License](https://img.shields.io/badge/license-GPL-blue.svg?style=flat-square)](LICENSE)
 
 Changes:
@@ -21,15 +17,15 @@ Changes:
 
 ## Introduction
 
-PHP Invoice is a simple object oriented PHP class to generate beautifully designed invoices, quotes
+PHP Gift Card is a simple object oriented PHP class to generate beautifully designed gift cards, quotes
 or orders with just a few lines of code. Brand it with your own logo and theme color, add unlimited
 items and total rows with automatic paging. You can deliver the PDF ouput in the user's browser,
-save on the server or force a file download. PHP Invoice is fully customizable and can be integrated
+save on the server or force a file download. PHP Gift Card is fully customizable and can be integrated
 into any well known CMS.
 
 ### Multi-languages & Currencies
 
-PHP Invoice has built in translations in English, Dutch, French, German, Spanish and Italian (you
+PHP Gift Card has built in translations in English, Dutch, French, German, Spanish and Italian (you
 can easily add your own if needed) and you can set the currency needed per document.
 
 ### Additional Titles, Paragraphs And Badges
@@ -52,50 +48,51 @@ There are 3 examples included in the `examples/` folder of this repo:
 - change_timezone.php
 
 
-### Create A New Invoice
+### Create A New Gift Card
 
 TODO: After code review, update README documentation with new consts.
 
 > Make sure that the default php date timezone is set before using the class.
 
-In this simple example we are generating an invoice with custom logo and theme color. It will
+In this simple example we are generating an card with custom logo and theme color. It will
 contain 2 products and a box on the bottom with VAT and total price. Then we add a "Paid" badge
 right before the output.
 
 ```php
-use Konekt\PdfInvoice\InvoicePrinter;
+use Pyromn\PdfGiftCard\GiftCardPrinter;
 
-  $invoice = new InvoicePrinter();
+  $giftCard = new GiftCardPrinter();
   
   /* Header settings */
-  $invoice->setLogo("images/sample1.jpg");   //logo image path
-  $invoice->setColor("#007fff");      // pdf color scheme
-  $invoice->setType("Sale Invoice");    // Invoice Type
-  $invoice->setReference("INV-55033645");   // Reference
-  $invoice->setDate(date('M dS ,Y',time()));   //Billing Date
-  $invoice->setTime(date('h:i:s A',time()));   //Billing Time
-  $invoice->setDue(date('M dS ,Y',strtotime('+3 months')));    // Due Date
-  $invoice->setFrom(array("Seller Name","Sample Company Name","128 AA Juanita Ave","Glendora , CA 91740"));
-  $invoice->setTo(array("Purchaser Name","Sample Company Name","128 AA Juanita Ave","Glendora , CA 91740"));
+  $giftCard->setLogo("images/example.jpg");   //logo image path
+  $giftCard->setColor("#007fff");      // pdf color scheme
+  $giftCard->setType("Gift Card");    // Invoice Type
+  $giftCard->setReference("INV-55033645");   // Reference
   
-  $invoice->addItem("AMD Athlon X2DC-7450","2.4GHz/1GB/160GB/SMP-DVD/VB",6,0,580,0,3480);
-  $invoice->addItem("PDC-E5300","2.6GHz/1GB/320GB/SMP-DVD/FDD/VB",4,0,645,0,2580);
-  $invoice->addItem('LG 18.5" WLCD',"",10,0,230,0,2300);
-  $invoice->addItem("HP LaserJet 5200","",1,0,1100,0,1100);
+  $giftCard->setDate(date('M dS ,Y',time()));   //Billing Date
+  $giftCard->setTime(date('h:i:s A',time()));   //Billing Time
+  $giftCard->setDue(date('M dS ,Y',strtotime('+3 months')));    // Due Date
   
-  $invoice->addTotal("Total",9460);
-  $invoice->addTotal("VAT 21%",1986.6);
-  $invoice->addTotal("Total due",11446.6,true);
+  $giftCard->setTo(array("Purchaser Name","Sample Company Name","128 AA Juanita Ave","Glendora , CA 91740"));
   
-  $invoice->addBadge("Payment Paid");
+  $giftCard->addItem("AMD Athlon X2DC-7450","2.4GHz/1GB/160GB/SMP-DVD/VB",6,0,580,0,3480);
+  $giftCard->addItem("PDC-E5300","2.6GHz/1GB/320GB/SMP-DVD/FDD/VB",4,0,645,0,2580);
+  $giftCard->addItem('LG 18.5" WLCD',"",10,0,230,0,2300);
+  $giftCard->addItem("HP LaserJet 5200","",1,0,1100,0,1100);
   
-  $invoice->addTitle("Important Notice");
+  $giftCard->addTotal("Total",9460);
+  $giftCard->addTotal("VAT 21%",1986.6);
+  $giftCard->addTotal("Total due",11446.6,true);
   
-  $invoice->addParagraph("No item will be replaced or refunded if you don't have the invoice with you.");
+  $giftCard->addBadge("Payment Paid");
   
-  $invoice->setFooternote("My Company Name Here");
+  $giftCard->addTitle("Important Notice");
   
-  $invoice->render('example1.pdf','I'); 
+  $giftCard->addParagraph("No item will be replaced or refunded if you don't have the invoice with you.");
+  
+  $giftCard->setFooternote("My Company Name Here");
+  
+  $giftCard->render('example1.pdf','I'); 
   /* I => Display on browser, D => Force Download, F => local path save, S => return document as string */
 ```
 
@@ -104,10 +101,10 @@ use Konekt\PdfInvoice\InvoicePrinter;
 ### Create Instances
 
 ```php
-use Konekt\PdfInvoice\InvoicePrinter;
+use Pyromn\PdfGiftCard\GiftCardPrinter;
 
 // Default Param: Size: A4, Currency: $, Language: en
-$invoice = new InvoicePrinter($size, $currency, $language); 
+$giftCard = new GiftCardPrinter($size, $currency, $language); 
 ```
 
 | Parameter | Type   | Accepts                          | Note                                                 |
@@ -122,7 +119,7 @@ $invoice = new InvoicePrinter($size, $currency, $language);
 How do you want to show your numbers?
 
 ```php
-$invoice->setNumberFormat($decimalpoint, $seperator, $alignment, $space, $negativeParenthesis);
+$giftCard->setNumberFormat($decimalpoint, $seperator, $alignment, $space, $negativeParenthesis);
 ```
 
 | Parameter    | Type    | Accepts                               | Note                                           |
@@ -135,17 +132,17 @@ $invoice->setNumberFormat($decimalpoint, $seperator, $alignment, $space, $negati
 
 ### Color
 
-Set a custom color to personalize your invoices.
+Set a custom color to personalize your cards.
 
 ```php
 // Hexadecimal color code
-$invoice->setColor($color);
+$giftCard->setColor($color);
 ```
 
 ### Add Logo
 
 ```php
-$invoice->setLogo($image, $maxwidth, $maxheight);
+$giftCard->setLogo($image, $maxwidth, $maxheight);
 ```
 
 | Parameter            | Type   | Accepts                               | Note                                                                     |
@@ -158,30 +155,30 @@ $invoice->setLogo($image, $maxwidth, $maxheight);
 
 ```php
 // A string with the document title, will be displayed
-// in the right top corner of the document (e.g. 'Invoice' or 'Quote')
-$invoice->setType($title);
+// in the right top corner of the document (e.g. 'Gift Card' or 'Quote')
+$giftCard->setType($title);
 ```
 
-### Invoice Number
+### Order Number
 
 ```php
 // Document reference number that will be displayed in
 // the right top corner of the document (e.g. 'INV29782')
-$invoice->setReference($number);
+$giftCard->setReference($number);
 ```
 
 ### Date
 
 ```php
 //A string with the document's date
-$invoice->setDate($date);
+$giftCard->setDate($date);
 ```
 
 ### Due Date
 
 ```php
 // A string with the document's due date
-$invoice->setDue($duedate);
+$giftCard->setDue($duedate);
 ```
 
 ### Issuer Information
@@ -194,7 +191,7 @@ Set your company details.
 // to use your company's name. You can add as
 // many lines as you need.
 /** Example: */
-$invoice->setFrom([
+$giftCard->setFrom([
     'My Company',
     'Address line 1',
     'Address line 2',
@@ -211,7 +208,7 @@ $invoice->setFrom([
 // array will be bold on the document so we suggest you to use
 // the company's name. You can add as many lines as you need.
 /** Example */
-$invoice->setTo([
+$giftCard->setTo([
    'My Client',
    'Address line 1',
    'Address line 2',
@@ -227,7 +224,7 @@ Switch the horizontal positions of your company information and the client infor
 your company details are on the left.
 
 ```php
-$invoice->flipflop();
+$giftCard->flipflop();
 ```
 
 ### Issuer and Client header titles
@@ -235,7 +232,7 @@ $invoice->flipflop();
 Hide the issuer and client header row
 
 ```php
-$invoice->hideToFromHeaders();
+$giftCard->hideToFromHeaders();
 ```
 
 ### Adding Items
@@ -244,7 +241,7 @@ Add a new product or service row to your document below the company and client i
 Invoice has automatic paging so there is absolutely no limit.
 
 ```php
-$invoice->addItem(name, description, quantity, vat, price, discount, total);
+$giftCard->addItem(name, description, quantity, vat, price, discount, total);
 ```
 
 * `name` (string)  
@@ -270,7 +267,7 @@ The fields `description`, `quantity`, `vat`, `price`, `discount` and `total` are
 Change the font size for the product description. Default is 7
 
 ```php
-$invoice->setFontSizeProductDescription(9);
+$giftCard->setFontSizeProductDescription(9);
 ```
 
 ### Adding Totals
@@ -278,7 +275,7 @@ $invoice->setFontSizeProductDescription(9);
 Add a row below the products and services for calculations and totals. You can add unlimited rows.
 
 ```php
-$invoice->addTotal(name,value,background);
+$giftCard->addTotal(name,value,background);
 ```
 
 - name {string} A string for the display name of the total field.
@@ -291,7 +288,7 @@ Adds a badge to your invoice below the products and services. You can use this f
 display that the invoice has been payed.
 
 ```php
-$invoice->addBadge($badge);
+$giftCard->addBadge($badge);
 ```
 
 badge {string} A string with the text of the badge.
@@ -299,9 +296,9 @@ badge {string} A string with the text of the badge.
 It is possible to set the color of the badge as the second parameter:
 
 ```php
-$invoice->addBadge('Paid', '#00ff00');
+$giftCard->addBadge('Paid', '#00ff00');
 // Short hex variant is also supported
-$invoice->addBadge('Payment pending', '#f00');
+$giftCard->addBadge('Payment pending', '#f00');
 ```
 
 > CSS color names ('red', 'cyan', 'fuchsia', etc) are **NOT supported**
@@ -312,7 +309,7 @@ You can add titles and paragraphs to display information on the bottom part of y
 payment details or shipping information.
 
 ```php
-$invoice->addTitle($title);
+$giftCard->addTitle($title);
 ```
 
 title {string} A string with the title to display in the badge.
@@ -323,7 +320,7 @@ You can add titles and paragraphs to display information on the bottom part of y
 payment details or shipping information.
 
 ```php
-$invoice->addParagraph($paragraph);
+$giftCard->addParagraph($paragraph);
 ```
 
 Paragraph {string} A string with the paragraph text with multi-line support.
@@ -334,8 +331,8 @@ Use either `<br>` or `\n` to add a line-break.
 You can change a Language Term with this method. This overwrites the Term from the Language File.
 
 ```php
-$invoice->changeLanguageTerm($term, $new);
-$invoice->changeLanguageTerm('date', 'Confirmation Date');
+$giftCard->changeLanguageTerm($term, $new);
+$giftCard->changeLanguageTerm('date', 'Confirmation Date');
 ```
 
 ### Footer
@@ -343,19 +340,19 @@ $invoice->changeLanguageTerm('date', 'Confirmation Date');
 A small text you want to display on the bottom left corner of the document.
 
 ```php
-$invoice->setFooternote($note);
+$giftCard->setFooternote($note);
 ```
 
 note {string} A string with the information you want to display in the footer.
 
-### Rendering The Invoice
+### Rendering The Card
 
 ```php
-$invoice->render($name, $output);
+$giftCard->render($name, $output);
 ```
 
-- name {string} A string with the name of your invoice. Example: 'invoice.pdf'
-- output {string} Choose how you want the invoice to be delivered to the user.
+- name {string} A string with the name of your card. Example: 'card.pdf'
+- output {string} Choose how you want the card to be delivered to the user.
   The following options are available:
   - ``I`` (Send the file inline to the browser)
   - ``D`` (Send to the browser and force a file download with the name given by name)
@@ -364,5 +361,4 @@ $invoice->render($name, $output);
 
 ## Credits
 
-- [Splashpk](https://github.com/farjadtahir/pdf-invoicr)
 - [FPDF](http://www.fpdf.org/)
