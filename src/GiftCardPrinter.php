@@ -452,7 +452,7 @@ class GiftCardPrinter extends tFPDF
 
         //Title
         $this->SetTextColor(0, 0, 0);
-        $this->SetFont($this->font, 'B', 20);
+        $this->SetFont($this->font, '', 10);
         if (isset($this->title) and !empty($this->title)) {
             $this->Cell(0, 5, mb_strtoupper($this->title, self::CHARSET_INPUT), 0, 1, 'R');
         }
