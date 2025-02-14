@@ -65,6 +65,7 @@ class GiftCardPrinter extends tFPDF
     public $language;
     public $firstColumnWidth;
     public $title;
+    public $description;
     public $quantityField;
     public $priceField;
     public $totalField;
@@ -201,6 +202,11 @@ class GiftCardPrinter extends tFPDF
     public function setType($title)
     {
         $this->title = $title;
+    }
+
+    public function setDescription($description)
+    {
+        $this->description = $description;
     }
 
     public function setColor($rgbcolor)
@@ -530,7 +536,7 @@ class GiftCardPrinter extends tFPDF
             $this->Cell(
                 $this->firstColumnWidth,
                 10,
-                mb_strtoupper('Balček obsahuje', self::CHARSET_INPUT),
+                mb_strtoupper($this->description, self::CHARSET_INPUT),
                 0,
                 0,
                 'L',
